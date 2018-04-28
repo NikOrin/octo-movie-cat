@@ -178,6 +178,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -252,6 +253,16 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\octo-movie-cat.Contracts\octo-movie-cat.Contracts.csproj">
+      <Project>{46980AB9-E4AF-4030-BCCE-23F638786A52}</Project>
+      <Name>octo-movie-cat.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\octo-movie-cat.Service\octo-movie-cat.Service.csproj">
+      <Project>{046F9AA8-A12C-42EB-A32E-0A2C004AE845}</Project>
+      <Name>octo-movie-cat.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
