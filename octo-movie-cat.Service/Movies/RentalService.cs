@@ -1,4 +1,5 @@
 ﻿using octo_movie_cat.Contracts;
+using octo_movie_cat.Service.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -34,7 +35,7 @@ namespace octo_movie_cat.Service.Movies
         {
             var builder = new SqlConnectionStringBuilder();
 
-            builder.DataSource = "DESKTOP-04RQJMA\\SQLEXPRESS";
+            builder.DataSource = ConfigSettings.DatabaseServer;
             builder.InitialCatalog = "Movies";
             builder.IntegratedSecurity = true;
 

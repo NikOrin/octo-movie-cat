@@ -23,28 +23,8 @@ namespace octo_movie_cat.Controllers
         [HttpGet]
         public IEnumerable<Movie> SearchMovies(string title)
         {
-            var movie = new Movie();
-            movie.Title = title;
-            movie.ReleaseDate = DateTime.Now.Date;
-
-            return new Movie[] { movie };
-        }
-
-        [Route("api/PlaceOrder")]
-        [HttpPost]
-        public RentalResponse PlaceOrder(RentalRequest request)
-        {
-            if (Request.Headers.Authorization == null) ActionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            else
-            {
-                var auth = Request.Headers.Authorization;
-            }
-
-            //string username = Encoding.UTF8.GetString(Convert.FromBase64String(h))
-
-            var rentalService = new RentalService(request);
-            
-            return rentalService.DoWork();
+            var movieService = new MovieService();
+            return movieService.SearchMovies(title);
         }
     }
 }

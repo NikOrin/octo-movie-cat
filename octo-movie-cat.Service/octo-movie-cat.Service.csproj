@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ConfigSettings.cs" />
+    <Compile Include="Common\UserAuthentication.cs" />
+    <Compile Include="Common\Security.cs" />
+    <Compile Include="Movies\MovieService.cs" />
     <Compile Include="Movies\RentalService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\octo-movie-cat.Contracts\octo-movie-cat.Contracts.csproj">
