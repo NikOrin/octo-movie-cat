@@ -11,21 +11,13 @@ namespace octo_movie_cat.Controllers
 {
     public class RentalsController : ApiController
     {
-        [Route("api/PlaceOrder")]
+        [Route("api/rentMovie")]
         [HttpPost]
-        public RentalResponse PlaceOrder(RentalRequest request)
+        public IHttpActionResult RentMovie(RentalRequest request)
         {
-            if (Request.Headers.Authorization == null) ActionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            else
-            {
-                var auth = Request.Headers.Authorization;
-            }
-
-            //string username = Encoding.UTF8.GetString(Convert.FromBase64String(h))
-
-            var rentalService = new RentalService(request);
-
-            return rentalService.DoWork();
+            var rentalService = new RentalService();
+            //authenicate user
+            return Ok(rentalService.HandleRequest(request));
         }
     }
 }

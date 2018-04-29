@@ -9,6 +9,7 @@ namespace octo_movie_cat.Contracts
     public class RentalResponse
     {
         public bool IsSuccess;
-        public string ConfirmationCode;
+        public Int64? ConfirmationID;
+        public string Message;
     }
 }

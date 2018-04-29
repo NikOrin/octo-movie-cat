@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ConfigSettings.cs" />
+    <Compile Include="Common\IAuthenticateUser.cs" />
     <Compile Include="Common\UserAuthentication.cs" />
     <Compile Include="Common\Security.cs" />
     <Compile Include="Movies\MovieService.cs" />

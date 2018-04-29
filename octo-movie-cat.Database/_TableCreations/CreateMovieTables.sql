@@ -84,6 +84,7 @@ BEGIN
 		InventoryID INT NULL,
 		RentalDate DATETIME2(2) NOT NULL,
 		RentalDurationHours TINYINT NOT NULL,
+		Returned BIT NOT NULL,
 		CONSTRAINT PK_Rental_RentalID PRIMARY KEY CLUSTERED (RentalID),
 		CONSTRAINT FK_Rental_User FOREIGN KEY (UserID) REFERENCES dbo.[User] (UserID),
 		CONSTRAINT FK_Rental_Movie FOREIGN KEY (MovieID) REFERENCES dbo.Movie (MovieID),
