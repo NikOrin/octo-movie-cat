@@ -17,7 +17,7 @@ namespace octo_movie_cat.Controllers
         {
             var service = new UserService();
             var userID = service.CreateNewUser(user);
-
+            if (userID == null) return BadRequest();
             return Ok(userID);
         }
     }

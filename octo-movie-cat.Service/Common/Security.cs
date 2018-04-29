@@ -36,14 +36,15 @@ namespace octo_movie_cat.Service.Common
             return salt;
         }
 
-        public static bool AuthenticateUser(User user)
+        public static bool AuthenticateUser(int userID, string username, string password)
         {
             var userService = new UserService();
-            var userAuthentication = userService.GetUserAuthenticationObject(user.UserID.Value);
+            var userAuthentication = userService.GetUserAuthenticationObject(userID);
 
-            var testPassword = EncryptPassword(user.Password, Convert.FromBase64String(userAuthentication.Salt));
+            var testPassword = EncryptPassword(password, Convert.FromBase64String(userAuthentication.Salt));
 
-            return userAuthentication.Password_e.Equals(testPassword);
+            return userAuthentication.Password_e.Equals(testPassword) 
+                && userAuthentication.Username.Equals(username);
         }
     }
 }

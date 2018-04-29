@@ -24,6 +24,7 @@ BEGIN
 	SELECT u.UserID 
 		, u.Password_e
 		, u.Salt
+		, u.Username
 	FROM dbo.[User] AS u
 	WHERE u.UserID = @UserID
 END

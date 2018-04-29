@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace octo_movie_cat.Service.Movies
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
             {
                 conn.Open();
+                //transaction necessary to make sure multiple don't checkout the same dvd/vhs
                 SqlTransaction transaction = conn.BeginTransaction();
 
                 try
@@ -77,10 +79,22 @@ namespace octo_movie_cat.Service.Movies
                     response.IsSuccess = false;
                     response.Message = ex.Message;
                 }
-                
             }
             
             return response;
+        }
+
+        public void ReturnMovie(int inventoryID)
+        {
+
+        }
+
+        public bool AuthenticateUser(int userID, AuthenticationHeaderValue authHeader)
+        {
+            byte[] data = Convert.FromBase64String(authHeader.Parameter);
+            string[] authHeaderRaw = Encoding.UTF8.GetString(data).Split( new char[] { ':' });
+
+            return Security.AuthenticateUser(userID, authHeaderRaw[0], authHeaderRaw[1]);
         }
 
         private byte GetRentalDuration(RentalRequest request)
@@ -115,11 +129,6 @@ namespace octo_movie_cat.Service.Movies
             }
 
             return inventoryID;
-        }
-
-        public int AuthenticateUser(string username, string password)
-        {
-            return 0;
         }
     }
 }

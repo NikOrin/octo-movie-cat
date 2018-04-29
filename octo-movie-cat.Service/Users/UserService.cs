@@ -13,8 +13,11 @@ namespace octo_movie_cat.Service.Users
 {
     public class UserService
     {
-        public int CreateNewUser(User user)
+        public int? CreateNewUser(User user)
         {
+            if (UsernameContainsUnpermittedCharacters(user.Username))
+                return null;
+
             byte[] salt = Security.GenerateSalt();
             var hashedPassword = Security.EncryptPassword(user.Password, salt);
 
@@ -54,6 +57,11 @@ namespace octo_movie_cat.Service.Users
             return user.UserID.Value;
         }
 
+        private bool UsernameContainsUnpermittedCharacters(string username)
+        {
+            return username.Contains(":");
+        }
+
         internal UserAuthentication GetUserAuthenticationObject(int userID)
         {
             var dt = new DataTable();
@@ -81,7 +89,7 @@ namespace octo_movie_cat.Service.Users
             user.UserID = (int)row["UserID"];
             user.Password_e = row["Password_e"] as string;
             user.Salt = row["Salt"] as string;
-
+            user.Username = row["Username"] as string;
             return user;
         }
     }

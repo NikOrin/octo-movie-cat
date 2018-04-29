@@ -10,6 +10,7 @@ namespace octo_movie_cat.Service.Common
     internal class UserAuthentication
     {
         public int UserID { get; set; }
+        public string Username { get; set; }
         public string Password_e { get; set; }
         public string Salt { get; set; }
     }
