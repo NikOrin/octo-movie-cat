@@ -9,7 +9,8 @@ GO
 
 CREATE PROC dbo.ReturnMovie
 	@RentalID INT,
-	@IsPhysicalReturn BIT
+	@IsPhysicalReturn BIT,
+	@RowsAffected INT = NULL OUTPUT
 AS 
 BEGIN
 	UPDATE dbo.Rental
@@ -17,6 +18,8 @@ BEGIN
 	WHERE RentalID = @RentalID
 		AND ((@IsPhysicalReturn = 1 AND InventoryID IS NOT NULL) 
 			OR (@IsPhysicalReturn = 0 AND InventoryID IS NULL))
+
+	SET @RowsAffected = @@ROWCOUNT
 
 	IF @IsPhysicalReturn = 1
 	BEGIN
@@ -28,7 +31,8 @@ BEGIN
 		UPDATE dbo.Inventory
 		SET IsAvailable = 1
 		WHERE InventoryID = @InventoryID
+
+		SET @RowsAffected = @@ROWCOUNT
 	END
-	RETURN @@ROWCOUNT
 END
 GO

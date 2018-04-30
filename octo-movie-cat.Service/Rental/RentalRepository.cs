@@ -75,9 +75,9 @@ namespace octo_movie_cat.Service.Rental
             return rentalID;
         }
 
-        public long GetRentalID(int inventoryID)
+        public long? GetRentalID(int inventoryID)
         {
-            long rentalID;
+            long? rentalID;
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
             {
                 using (var command = new SqlCommand("dbo.Rental_RentalID_Get", conn))
@@ -97,7 +97,7 @@ namespace octo_movie_cat.Service.Rental
                     command.ExecuteNonQuery();
                     conn.Close();
 
-                    rentalID = (long)outputParameter.Value;
+                    rentalID = outputParameter.Value as long?;
                 }
             }
             return rentalID;
@@ -115,18 +115,18 @@ namespace octo_movie_cat.Service.Rental
                     command.Parameters.AddWithValue("@RentalID", rentalID);
                     command.Parameters.AddWithValue("@IsPhysicalReturn", isPhysicalReturn);
 
-                    var returnParameter = new SqlParameter();
-                    returnParameter.ParameterName = "@ReturnParam";
-                    returnParameter.Direction = ParameterDirection.ReturnValue;
-                    returnParameter.SqlDbType = SqlDbType.Int;
+                    var rowsAffectedParameter = new SqlParameter();
+                    rowsAffectedParameter.ParameterName = "@RowsAffected";
+                    rowsAffectedParameter.Direction = ParameterDirection.Output;
+                    rowsAffectedParameter.SqlDbType = SqlDbType.Int;
 
-                    command.Parameters.Add(returnParameter);
+                    command.Parameters.Add(rowsAffectedParameter);
 
                     conn.Open();
                     command.ExecuteNonQuery();
                     conn.Close();
 
-                    rowsAffected = (int)returnParameter.Value;
+                    rowsAffected = (int)rowsAffectedParameter.Value;
                 }
             }
             return rowsAffected;

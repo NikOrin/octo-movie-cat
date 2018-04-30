@@ -63,7 +63,7 @@ namespace octo_movie_cat.Service.Rental
                     var rental = new RentalEntity();
                     rental.MovieID = request.MovieID;
                     rental.UserID = request.UserID;
-                    rental.InventoryID = inventoryID.Value;
+                    rental.InventoryID = inventoryID;
                     rental.RentalDurationHours = rentalDurationHours;
 
                     rentalID = RentalRepository.Instance.RentMovie(rental, conn, transaction);
@@ -93,9 +93,12 @@ namespace octo_movie_cat.Service.Rental
         {
             int rowsAffected;
 
-            long rentalID = RentalRepository.Instance.GetRentalID(inventoryID);
+            long? rentalID = RentalRepository.Instance.GetRentalID(inventoryID);
 
-            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID, true);
+            if (rentalID == null)
+                return false;
+
+            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID.Value, true);
 
             return rowsAffected == 1;
         }

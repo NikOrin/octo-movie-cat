@@ -28,8 +28,8 @@ namespace octo_movie_cat.Controllers
             bool returnSuccessful = RentalService.Instance.ReturnMovie(inventoryID);
 
             if (returnSuccessful)
-                return Ok();
-            else return BadRequest();
+                return Ok("Movie successfully returned");
+            else return BadRequest("Something went wrong during return process");
         }
 
         [Route("api/revokeOnlineRental/{rentalID}")]

@@ -11,7 +11,7 @@ namespace octo_movie_cat.Service.Rental
         public long? RentalID;
         public int UserID;
         public int MovieID;
-        public int InventoryID;
+        public int? InventoryID;
         public byte RentalDurationHours;
     }
 }
