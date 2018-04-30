@@ -39,6 +39,7 @@ namespace octo_movie_cat.Service.Users
 
                     command.Parameters.Add(userIDParam);
                     command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Password_e", user.Password);

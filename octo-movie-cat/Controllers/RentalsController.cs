@@ -1,10 +1,5 @@
 ﻿using octo_movie_cat.Contracts;
-using octo_movie_cat.Service.Movies;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using octo_movie_cat.Service.Rental;
 using System.Web.Http;
 
 namespace octo_movie_cat.Controllers
@@ -15,25 +10,37 @@ namespace octo_movie_cat.Controllers
         [HttpPost]
         public IHttpActionResult RentMovie(RentalRequest request)
         {
-            var rentalService = new RentalService();
-
-            if (!rentalService.AuthenticateUser(request.UserID, ActionContext.Request.Headers.Authorization))
+            if (!RentalService.Instance.AuthenticateUser(request.UserID, ActionContext.Request.Headers.Authorization))
                 return Unauthorized();
             //authenicate user
-            RentalResponse response = rentalService.HandleRequest(request);
+            RentalResponse response = RentalService.Instance.HandleRentalRequest(request);
 
             return Ok(response);
         }
 
-        [Route("api/returnMovie")]
+        [Route("api/returnMovie/{inventoryID}")]
         [HttpPost]
-        public IHttpActionResult ReturnMovie(int inventoryID)
+        public IHttpActionResult ReturnPhysicalMovie(int inventoryID)
         {
             //check http authorization header to make sure this is only being called
             //from an internal service that verifies a movie is being returned and not 
             //a user just calling this service
+            bool returnSuccessful = RentalService.Instance.ReturnMovie(inventoryID);
 
-            return Unauthorized();
+            if (returnSuccessful)
+                return Ok();
+            else return BadRequest();
+        }
+
+        [Route("api/revokeOnlineRental/{rentalID}")]
+        [HttpPost]
+        public IHttpActionResult RevokeOnlineRental(int rentalID)
+        {
+            bool revokeSuccessful = RentalService.Instance.RevokeOnlineRental(rentalID);
+
+            if (revokeSuccessful)
+                return Ok();
+            else return BadRequest();
         }
     }
 }

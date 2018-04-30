@@ -9,19 +9,37 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace octo_movie_cat.Service.Movies
+namespace octo_movie_cat.Service.Rental
 {
     public class RentalService : IAuthenticateUser
     {
-        public RentalResponse HandleRequest(RentalRequest request)
+        private static RentalService _instance;
+
+        public static RentalService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new RentalService();
+                return _instance;
+            }
+        }
+
+        private RentalService()
+        {
+
+        }
+
+        public RentalResponse HandleRentalRequest(RentalRequest request)
         {
             if (request == null)
                 throw new Exception();
+
             var response = new RentalResponse();
                 
             byte rentalDurationHours = GetRentalDuration(request);
 
-            Int64? rentalID;
+            long? rentalID;
            
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
             {
@@ -34,7 +52,7 @@ namespace octo_movie_cat.Service.Movies
                     int? inventoryID = null;
                     if (request.IsPhysicalRental)
                     {
-                        inventoryID = GetInventoryID(request.MovieID, conn, transaction);
+                        inventoryID = RentalRepository.Instance.CheckoutMovie(request.MovieID, conn, transaction);
 
                         if (inventoryID == null)//out of stock
                         {
@@ -42,33 +60,20 @@ namespace octo_movie_cat.Service.Movies
                         }
                     }
 
-                    using (var command = new SqlCommand("dbo.RentMovie", conn, transaction))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@UserID", request.UserID);
-                        command.Parameters.AddWithValue("@MovieID", request.MovieID);
-                        command.Parameters.AddWithValue("@InventoryID", inventoryID);
-                        command.Parameters.AddWithValue("@RentalDurationHours", rentalDurationHours);
+                    var rental = new RentalEntity();
+                    rental.MovieID = request.MovieID;
+                    rental.UserID = request.UserID;
+                    rental.InventoryID = inventoryID.Value;
+                    rental.RentalDurationHours = rentalDurationHours;
 
-                        var outputParameter = new SqlParameter();
-                        outputParameter.DbType = DbType.Int64;
-                        outputParameter.ParameterName = "@RentalID";
-                        outputParameter.Direction = ParameterDirection.Output;
+                    rentalID = RentalRepository.Instance.RentMovie(rental, conn, transaction);
 
-                        command.Parameters.Add(outputParameter);
+                    if (rentalID == null)
+                        throw new Exception("Something went wrong during movie checkout");
 
-                        command.ExecuteNonQuery();
+                    response.IsSuccess = true;
+                    response.ConfirmationID = rentalID;
 
-                        rentalID = outputParameter.Value as Int64?;
-
-                        if (rentalID == null)
-                            throw new Exception("Rental process failed");
-                        else
-                        {
-                            response.IsSuccess = true;
-                            response.ConfirmationID = rentalID;
-                        }
-                    }
                     transaction.Commit();
                     conn.Close();
                 }
@@ -84,9 +89,24 @@ namespace octo_movie_cat.Service.Movies
             return response;
         }
 
-        public void ReturnMovie(int inventoryID)
+        public bool ReturnMovie(int inventoryID)
         {
+            int rowsAffected;
 
+            long rentalID = RentalRepository.Instance.GetRentalID(inventoryID);
+
+            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID);
+
+            return rowsAffected == 1;
+        }
+
+        public bool RevokeOnlineRental(int rentalID)
+        {
+            int rowsAffected;
+
+            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID);
+
+            return rowsAffected == 1;
         }
 
         public bool AuthenticateUser(int userID, AuthenticationHeaderValue authHeader)
@@ -105,30 +125,6 @@ namespace octo_movie_cat.Service.Movies
             if (request.IsPhysicalRental)
                 return 7 * 24;
             else return 48;
-        }
-
-        private int? GetInventoryID(int movieID, SqlConnection conn, SqlTransaction transaction)
-        {
-            int? inventoryID;
-            using (var command = new SqlCommand("dbo.Inventory_Checkout", conn, transaction))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-
-                command.Parameters.AddWithValue("@MovieID", movieID);
-
-                var outputParameter = new SqlParameter();
-                outputParameter.ParameterName = "@InventoryID";
-                outputParameter.DbType = DbType.Int32;
-                outputParameter.Direction = ParameterDirection.Output;
-
-                command.Parameters.Add(outputParameter);
-
-                command.ExecuteNonQuery();
-
-                inventoryID = outputParameter.Value as int?;
-            }
-
-            return inventoryID;
         }
     }
 }

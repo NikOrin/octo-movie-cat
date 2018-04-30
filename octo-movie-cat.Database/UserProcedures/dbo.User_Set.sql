@@ -10,6 +10,7 @@ GO
 CREATE PROC dbo.User_Set
 	@UserID INT = NULL OUTPUT,
 	@Username VARCHAR(50),
+	@Email VARCHAR(250),
 	@FirstName VARCHAR(50),
 	@LastName VARCHAR(50),
 	@Password_e VARCHAR(64),
@@ -22,6 +23,7 @@ BEGIN
 		INSERT INTO dbo.[User]
 		(
 			Username,
+			Email,
 			FirstName,
 			LastName,
 			Password_e,
@@ -33,6 +35,7 @@ BEGIN
 		VALUES
 		(
 			@Username,
+			@Email,
 			@FirstName,
 			@LastName,
 			@Password_e,
@@ -47,7 +50,8 @@ BEGIN
 	ELSE 
 	BEGIN
 		UPDATE dbo.[User]
-		SET FirstName = @FirstName,
+		SET Email = @Email,
+			FirstName = @FirstName,
 			LastName = @LastName,
 			UpdatedOn = SYSDATETIME()
 		WHERE UserID = @UserID

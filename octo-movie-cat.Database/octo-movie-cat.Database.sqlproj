@@ -73,7 +73,10 @@
     <None Include="UploadTestData\2_Movies.sql" />
     <None Include="UploadTestData\Inventory.sql" />
     <None Include="MovieProcedures\dbo.Movie_GetByTitle.sql" />
-    <None Include="RentalProcedures\RentalProcedures.sql" />
+    <None Include="RentalProcedures\dbo.RentMovie.sql" />
+    <None Include="RentalProcedures\dbo.ReturnMovie.sql" />
+    <None Include="RentalProcedures\dbo.Inventory_Checkout.sql" />
+    <None Include="RentalProcedures\dbo.Rental_RentalID_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="_TableCreations\CreateUserTables.sql" />
