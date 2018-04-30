@@ -95,7 +95,7 @@ namespace octo_movie_cat.Service.Rental
 
             long rentalID = RentalRepository.Instance.GetRentalID(inventoryID);
 
-            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID);
+            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID, true);
 
             return rowsAffected == 1;
         }
@@ -104,7 +104,7 @@ namespace octo_movie_cat.Service.Rental
         {
             int rowsAffected;
 
-            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID);
+            rowsAffected = RentalRepository.Instance.ReturnMovie(rentalID, false);
 
             return rowsAffected == 1;
         }

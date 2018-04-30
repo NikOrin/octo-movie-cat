@@ -103,7 +103,7 @@ namespace octo_movie_cat.Service.Rental
             return rentalID;
         }
 
-        public int ReturnMovie(long rentalID)
+        public int ReturnMovie(long rentalID, bool isPhysicalReturn)
         {
             int rowsAffected;
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
@@ -113,8 +113,10 @@ namespace octo_movie_cat.Service.Rental
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@RentalID", rentalID);
+                    command.Parameters.AddWithValue("@IsPhysicalReturn", isPhysicalReturn);
 
                     var returnParameter = new SqlParameter();
+                    returnParameter.ParameterName = "@ReturnParam";
                     returnParameter.Direction = ParameterDirection.ReturnValue;
                     returnParameter.SqlDbType = SqlDbType.Int;
 
