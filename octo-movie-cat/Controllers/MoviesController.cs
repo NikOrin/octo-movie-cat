@@ -12,19 +12,12 @@ namespace octo_movie_cat.Controllers
 {
     public class MoviesController : ApiController
     {
-        [Route("api/search")]
-        [HttpGet]
-        public IEnumerable<string> SearchSmokeTest()
-        {
-            return new string[] { "asdf", "test" };
-        }
-
         [Route("api/search/{title}")]
         [HttpGet]
-        public IEnumerable<Movie> SearchMovies(string title)
+        public IHttpActionResult SearchMovies(string title)
         {
             var movieService = new MovieService();
-            return movieService.SearchMovies(title);
+            return Ok(movieService.SearchMovies(title));
         }
     }
 }

@@ -13,12 +13,23 @@ namespace octo_movie_cat.Controllers
     {
         [Route("api/createUser")]
         [HttpPost]
-        public IHttpActionResult CreateUser(User user)
+        public IHttpActionResult CreateUser(UserContract user)
         {
-            var service = new UserService();
-            var userID = service.CreateNewUser(user);
-            if (userID == null) return BadRequest();
+            var userID = UserService.Instance.CreateNewUser(user);
+            if (userID == null) return BadRequest("Something went wrong during user creation");
             return Ok(userID);
+        }
+
+        [Route("api/getUser/{userID}")]
+        [HttpGet]
+        public IHttpActionResult GetUser(int userID)
+        {
+            if (!UserService.Instance.AuthenticateUser(userID, ActionContext.Request.Headers.Authorization))
+                return Unauthorized();
+
+            var user = UserService.Instance.GetUser(userID);
+
+            return Ok(user);
         }
     }
 }

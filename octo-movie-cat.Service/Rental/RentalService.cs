@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace octo_movie_cat.Service.Rental
 {
-    public class RentalService : IAuthenticateUser
+    public class RentalService : BaseService
     {
         private static RentalService _instance;
 
@@ -30,12 +30,12 @@ namespace octo_movie_cat.Service.Rental
 
         }
 
-        public RentalResponse HandleRentalRequest(RentalRequest request)
+        public RentalResponseContract HandleRentalRequest(RentalRequestContract request)
         {
             if (request == null)
                 throw new Exception();
 
-            var response = new RentalResponse();
+            var response = new RentalResponseContract();
                 
             byte rentalDurationHours = GetRentalDuration(request);
 
@@ -112,15 +112,7 @@ namespace octo_movie_cat.Service.Rental
             return rowsAffected == 1;
         }
 
-        public bool AuthenticateUser(int userID, AuthenticationHeaderValue authHeader)
-        {
-            byte[] data = Convert.FromBase64String(authHeader.Parameter);
-            string[] authHeaderRaw = Encoding.UTF8.GetString(data).Split( new char[] { ':' });
-
-            return Security.AuthenticateUser(userID, authHeaderRaw[0], authHeaderRaw[1]);
-        }
-
-        private byte GetRentalDuration(RentalRequest request)
+        private byte GetRentalDuration(RentalRequestContract request)
         {
             //physical rentals should be a week long, whereas digital is 2 days
             //We can replace this logic with maybe user defined lengths

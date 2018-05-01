@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace octo_movie_cat.Contracts
 {
-    public class RentalResponse
+    public class RentalRequestContract
     {
-        public bool IsSuccess;
-        public Int64? ConfirmationID;
-        public string Message;
+        public int UserID;
+        public int MovieID;
+        public bool IsPhysicalRental;
     }
 }

@@ -77,6 +77,7 @@
     <None Include="RentalProcedures\dbo.ReturnMovie.sql" />
     <None Include="RentalProcedures\dbo.Inventory_Checkout.sql" />
     <None Include="RentalProcedures\dbo.Rental_RentalID_Get.sql" />
+    <None Include="UserProcedures\dbo.User_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="_TableCreations\CreateUserTables.sql" />

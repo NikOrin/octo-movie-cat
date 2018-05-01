@@ -8,12 +8,12 @@ namespace octo_movie_cat.Controllers
     {
         [Route("api/rentMovie")]
         [HttpPost]
-        public IHttpActionResult RentMovie(RentalRequest request)
+        public IHttpActionResult RentMovie(RentalRequestContract request)
         {
             if (!RentalService.Instance.AuthenticateUser(request.UserID, ActionContext.Request.Headers.Authorization))
                 return Unauthorized();
             //authenicate user
-            RentalResponse response = RentalService.Instance.HandleRentalRequest(request);
+            RentalResponseContract response = RentalService.Instance.HandleRentalRequest(request);
 
             return Ok(response);
         }

@@ -1,4 +1,5 @@
 ﻿using octo_movie_cat.Contracts;
+using octo_movie_cat.Service.User;
 using octo_movie_cat.Service.Users;
 using System;
 using System.Collections.Generic;
@@ -38,13 +39,12 @@ namespace octo_movie_cat.Service.Common
 
         public static bool AuthenticateUser(int userID, string username, string password)
         {
-            var userService = new UserService();
-            var userAuthentication = userService.GetUserAuthenticationObject(userID);
+            var userAuthentication = UserRepository.Instance.GetUserAuthenticationObject(userID);
 
             var testPassword = EncryptPassword(password, Convert.FromBase64String(userAuthentication.Salt));
 
             return userAuthentication.Password_e.Equals(testPassword) 
-                && userAuthentication.Username.Equals(username);
+                && userAuthentication.Username.Equals(username, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

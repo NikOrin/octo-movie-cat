@@ -24,11 +24,11 @@ namespace octo_movie_cat.Service.Movies
             }
         }
 
-        public IEnumerable<Movie> SearchMovies(string title)
+        public IEnumerable<MovieContract> SearchMovies(string title)
         {
             title = "%" + title + "%";
 
-            var movies = new List<Movie>();
+            var movies = new List<MovieContract>();
             var dt = new DataTable();
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
             {
@@ -48,7 +48,7 @@ namespace octo_movie_cat.Service.Movies
 
             foreach (DataRow row in dt.Rows)
             {
-                var movie = new Movie();
+                var movie = new MovieContract();
                 movie.MovieID = (int)row["MovieID"];
                 movie.Title = row["Title"] as string;
                 movie.PhysicalRentalTierID = row["PhysicalRentalTierID"] as byte?;
@@ -66,7 +66,7 @@ namespace octo_movie_cat.Service.Movies
             return movies;
         }
 
-        public void AdvancedSearch(Movie movie)
+        public void AdvancedSearch(MovieContract movie)
         {
         }
     }

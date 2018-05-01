@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace octo_movie_cat.Contracts
 {
-    public class Movie
+    public class MovieContract
     {
         public int MovieID { get; set; }
         public string Title { get; set; }
