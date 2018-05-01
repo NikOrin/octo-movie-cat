@@ -18,6 +18,7 @@ BEGIN
 		, u.LastName
 		, u.DateOfBirth
 		, u.CreatedOn
+		, u.UpdatedOn
 	FROM dbo.[User] AS u
 	WHERE u.UserID = @UserID
 END
