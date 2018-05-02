@@ -54,7 +54,7 @@ namespace octo_movie_cat.Service.Rental
                     {
                         inventoryID = RentalRepository.Instance.CheckoutMovie(request.MovieID, conn, transaction);
 
-                        if (inventoryID == null)//out of stock
+                        if (inventoryID == null)
                         {
                             throw new Exception("Movie out of stock. Could not fulfill physical rental request");
                         }
@@ -73,7 +73,8 @@ namespace octo_movie_cat.Service.Rental
 
                     response.IsSuccess = true;
                     response.ConfirmationID = rentalID;
-
+                    //This is probably where you would fire-off a service bus event 
+                    //to another service dedicated to mailing off a movie
                     transaction.Commit();
                     conn.Close();
                 }

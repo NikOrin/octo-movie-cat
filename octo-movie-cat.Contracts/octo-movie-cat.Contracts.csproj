@@ -41,10 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MovieContract.cs" />
+    <Compile Include="MovieReviewContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RentalInformationContract.cs" />
     <Compile Include="RentalRequestContract.cs" />
     <Compile Include="RentalResponseContract.cs" />
     <Compile Include="UserContract.cs" />
+    <Compile Include="UserDetailsContract.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -64,6 +64,12 @@ namespace octo_movie_cat.Service.Users
             return userID;
         }
 
+        public UserDetailsContract GetUserDetails(int userID)
+        {
+            var userDetails = new UserDetailsContract();
+            return userDetails;
+        }
+
         public UserContract GetUser(int userID)
         {
             UserEntity userEntity = UserRepository.Instance.GetUser(userID);

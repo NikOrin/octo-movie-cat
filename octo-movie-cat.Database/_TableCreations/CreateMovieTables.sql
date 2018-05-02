@@ -12,6 +12,17 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.tables AS t WHERE t.name = 'MpaaRating')
+BEGIN
+	CREATE TABLE dbo.MpaaRating
+	(
+		MpaaRatingID TINYINT NOT NULL,
+		RatingLabel VARCHAR(5) NOT NULL,
+		Description VARCHAR(250) NULL,
+		CONSTRAINT PK_MpaaRating_MpaaRatingID PRIMARY KEY CLUSTERED (MpaaRatingID)
+	)
+END
+
 IF NOT EXISTS (SELECT * FROM sys.tables AS t WHERE t.name = 'Movie')
 BEGIN
 	CREATE TABLE dbo.Movie
@@ -23,7 +34,26 @@ BEGIN
 		HDRentalTierID TINYINT NOT NULL,
 		ReleaseDate DATE NULL,
 		Description VARCHAR(1000) NULL,
+		RunTime TINYINT NULL,
+		MpaaRatingID TINYINT NULL,
 		CONSTRAINT PK_Movie_MovieID PRIMARY KEY CLUSTERED (MovieID)
+	)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables AS t WHERE t.name = 'UserMovieReview')
+BEGIN
+	CREATE TABLE dbo.UserMovieReview
+	(
+		UserMovieReviewID BIGINT NOT NULL IDENTITY(1,1),
+		UserID INT NOT NULL,
+		MovieID INT NOT NULL,
+		CreatedOn DATETIME2(2) NOT NULL,
+		UpdatedOn DATETIME2(2) NOT NULL,
+		Rating TINYINT NOT NULL,
+		Review VARCHAR(1000) NULL,
+		CONSTRAINT PK_UserMovieReview_UserMovieReviewID PRIMARY KEY CLUSTERED (UserMovieReviewID),
+		CONSTRAINT CH_Rating CHECK (Rating >= 1 AND Rating <= 5)
 	)
 END
 GO

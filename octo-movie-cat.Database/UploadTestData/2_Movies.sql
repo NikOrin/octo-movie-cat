@@ -23,7 +23,17 @@ TRUNCATE TABLE dbo.Movie
 GO
 
 INSERT INTO dbo.Movie
-(MovieID, Title, PhysicalRentalTierID, SDRentalTierID, HDRentalTierID, ReleaseDate, Description)
+(
+	MovieID, 
+	Title, 
+	PhysicalRentalTierID, 
+	SDRentalTierID, 
+	HDRentalTierID, 
+	ReleaseDate, 
+	Description,
+	RunTime,
+	MpaaRatingID
+)
 SELECT 
 	ROW_NUMBER() OVER (ORDER BY t.name) AS MovieID,
 	t.name AS Title,
@@ -31,7 +41,9 @@ SELECT
 	2,
 	4,
 	DATEADD(YEAR, -2, SYSDATETIME()) AS ReleaseDate,
-	''
+	'',
+	109) AS RunTime,
+	3 AS Rating
 FROM #movies AS t
 GO
 

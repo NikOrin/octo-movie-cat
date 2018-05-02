@@ -26,7 +26,9 @@ BEGIN
 		m.HDRentalTierID,
 		m.ReleaseDate,
 		m.Description,
-		InventoryCount 
+		m.RunTime,
+		m.MpaaRatingID
+		InventoryCount
 	FROM dbo.Movie AS m
 		LEFT JOIN inStock AS i ON m.MovieID = i.MovieID
 	WHERE m.Title LIKE @Title

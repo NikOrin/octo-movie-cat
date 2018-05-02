@@ -31,5 +31,18 @@ namespace octo_movie_cat.Controllers
 
             return Ok(user);
         }
+
+        [Route("api/getUserDetails/{userID}")]
+        [HttpGet]
+        public IHttpActionResult GetUserDetails(int userID)
+        {
+            //used to get order history and review history
+            if (!UserService.Instance.AuthenticateUser(userID, ActionContext.Request.Headers.Authorization))
+                return Unauthorized();
+
+            var userDetails = UserService.Instance.GetUserDetails(userID);
+
+            return Ok(userDetails);
+        }
     }
 }
