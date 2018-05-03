@@ -42,7 +42,7 @@ SELECT
 	4,
 	DATEADD(YEAR, -2, SYSDATETIME()) AS ReleaseDate,
 	'',
-	109) AS RunTime,
+	109 AS RunTime,
 	3 AS Rating
 FROM #movies AS t
 GO

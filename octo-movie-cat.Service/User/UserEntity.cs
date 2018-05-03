@@ -8,7 +8,7 @@ using octo_movie_cat.Contracts;
 
 namespace octo_movie_cat.Service.User
 {
-    public class UserEntity
+    internal class UserEntity
     {
         public int? UserID { get; set; }
         public string Username { get; set; }

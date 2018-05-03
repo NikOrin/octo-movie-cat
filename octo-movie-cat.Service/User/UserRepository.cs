@@ -26,7 +26,7 @@ namespace octo_movie_cat.Service.User
 
         private UserRepository() { }
 
-        public int CreateNewUser(UserEntity user)
+        internal int CreateNewUser(UserEntity user)
         {
             using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
             {
@@ -60,7 +60,7 @@ namespace octo_movie_cat.Service.User
             return user.UserID.Value;
         }
 
-        public UserEntity GetUser(int userID)
+        internal UserEntity GetUser(int userID)
         {
             var dt = new DataTable();
 

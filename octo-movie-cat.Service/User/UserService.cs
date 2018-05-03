@@ -27,7 +27,10 @@ namespace octo_movie_cat.Service.Users
             }
         }
 
-        private UserService() { }
+        private UserService()
+        {
+            
+        }
 
         public int? CreateNewUser(UserContract user)
         {

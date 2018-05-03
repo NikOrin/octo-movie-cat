@@ -45,6 +45,9 @@
     <Compile Include="Common\IAuthenticateUser.cs" />
     <Compile Include="Common\UserAuthentication.cs" />
     <Compile Include="Common\Security.cs" />
+    <Compile Include="MovieReview\MovieReviewService.cs" />
+    <Compile Include="Movie\MovieEntity.cs" />
+    <Compile Include="Movie\MovieRepository.cs" />
     <Compile Include="Movie\MovieService.cs" />
     <Compile Include="Rental\RentalEntity.cs" />
     <Compile Include="Rental\RentalService.cs" />

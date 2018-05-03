@@ -1,4 +1,5 @@
-﻿using System;
+﻿using octo_movie_cat.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace octo_movie_cat.Contracts
         public byte HDRentalTierID { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string Description { get; set; }
+        public byte? RunTime { get; set; }
+        public MpaaRating MpaaRating { get; set; }
         public bool InStock { get; set; }
         public bool DigitalRentalOnly
         {

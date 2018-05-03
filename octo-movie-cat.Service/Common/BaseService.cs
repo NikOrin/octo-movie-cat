@@ -11,6 +11,8 @@ namespace octo_movie_cat.Service.Common
     {
         public bool AuthenticateUser(int userID, AuthenticationHeaderValue authHeader)
         {
+            if (authHeader == null || !authHeader.Scheme.Equals("Basic")) return false;
+
             byte[] data = Convert.FromBase64String(authHeader.Parameter);
             string[] authHeaderRaw = Encoding.UTF8.GetString(data).Split(new char[] { ':' });
 

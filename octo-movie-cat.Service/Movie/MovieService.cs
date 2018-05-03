@@ -1,5 +1,7 @@
 ﻿using octo_movie_cat.Contracts;
+using octo_movie_cat.Contracts.Enums;
 using octo_movie_cat.Service.Common;
+using octo_movie_cat.Service.Movie;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,37 +30,13 @@ namespace octo_movie_cat.Service.Movies
         {
             title = "%" + title + "%";
 
+            var movieEntities = MovieRepository.Instance.GetMoviesByTitle(title);
+
             var movies = new List<MovieContract>();
-            var dt = new DataTable();
-            using (var conn = new SqlConnection(ConfigSettings.ConnectionString))
+
+            foreach (var movieEntity in movieEntities)
             {
-                using (var command = new SqlCommand("dbo.Movie_GetByTitle", conn))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Title", title);
-
-                    using (var adapter = new SqlDataAdapter(command))
-                    {
-                        conn.Open();
-                        adapter.Fill(dt);
-                        conn.Close();
-                    }
-                }
-            }
-
-            foreach (DataRow row in dt.Rows)
-            {
-                var movie = new MovieContract();
-                movie.MovieID = (int)row["MovieID"];
-                movie.Title = row["Title"] as string;
-                movie.PhysicalRentalTierID = row["PhysicalRentalTierID"] as byte?;
-                movie.SDRentalTierID = (byte)row["SDRentalTierID"];
-                movie.HDRentalTierID = (byte)row["HDRentalTierID"];
-                var inventoryCount = row["InventoryCount"] as int?;
-
-                movie.InStock = inventoryCount > 0;
-                movie.ReleaseDate = (DateTime)row["ReleaseDate"];
-                movie.Description = row["Description"] as string;
+                MovieContract movie = MapEntityToContract(movieEntity);
 
                 movies.Add(movie);
             }
@@ -68,6 +46,26 @@ namespace octo_movie_cat.Service.Movies
 
         public void AdvancedSearch(MovieContract movie)
         {
+
+        }
+
+        private MovieContract MapEntityToContract(MovieEntity movieEntity)
+        {
+            //Consider: using AutoMapper or StructureMap nuget packages for this sort of process
+            var movie = new MovieContract();
+
+            movie.MovieID = movieEntity.MovieID;
+            movie.Title = movieEntity.Title;
+            movie.PhysicalRentalTierID = movieEntity.PhysicalRentalTierID;
+            movie.SDRentalTierID = movieEntity.SDRentalTierID;
+            movie.HDRentalTierID = movieEntity.HDRentalTierID;
+            movie.ReleaseDate = movieEntity.ReleaseDate;
+            movie.Description = movieEntity.Description;
+            movie.RunTime = movieEntity.RunTime;
+            movie.InStock = (movieEntity.InventoryCount ?? 0) > 0;
+            movie.MpaaRating = (MpaaRating)movieEntity.MpaaRatingID;
+
+            return movie;
         }
     }
 }

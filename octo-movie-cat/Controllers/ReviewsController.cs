@@ -1,4 +1,5 @@
-﻿using System;
+﻿using octo_movie_cat.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,5 +10,12 @@ namespace octo_movie_cat.Controllers
 {
     public class ReviewsController : ApiController
     {
+        [Route("api/submitReview")]
+        [HttpPost]
+        public IHttpActionResult SubmitReview(MovieReviewContract review)
+        {
+
+            return Ok();
+        }
     }
 }

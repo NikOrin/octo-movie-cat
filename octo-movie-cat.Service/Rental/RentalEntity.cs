@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace octo_movie_cat.Service.Rental
 {
-    public class RentalEntity
+    internal class RentalEntity
     {
         public long? RentalID;
         public int UserID;

@@ -49,7 +49,7 @@ namespace octo_movie_cat.Service.Rental
             return inventoryID;
         }
 
-        public long? RentMovie(RentalEntity rental, SqlConnection conn, SqlTransaction transaction)
+        internal long? RentMovie(RentalEntity rental, SqlConnection conn, SqlTransaction transaction)
         {
             long? rentalID;
             using (var command = new SqlCommand("dbo.RentMovie", conn, transaction))

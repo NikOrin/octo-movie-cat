@@ -27,7 +27,7 @@ BEGIN
 		m.ReleaseDate,
 		m.Description,
 		m.RunTime,
-		m.MpaaRatingID
+		m.MpaaRatingID,
 		InventoryCount
 	FROM dbo.Movie AS m
 		LEFT JOIN inStock AS i ON m.MovieID = i.MovieID

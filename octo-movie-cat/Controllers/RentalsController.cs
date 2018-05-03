@@ -10,7 +10,7 @@ namespace octo_movie_cat.Controllers
         [HttpPost]
         public IHttpActionResult RentMovie(RentalRequestContract request)
         {
-            if (!RentalService.Instance.AuthenticateUser(request.UserID, ActionContext.Request.Headers.Authorization))
+            if (!RentalService.Instance.AuthenticateUser(request.UserID, ActionContext.Request?.Headers?.Authorization))
                 return Unauthorized();
             //authenicate user
             RentalResponseContract response = RentalService.Instance.HandleRentalRequest(request);
