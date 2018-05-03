@@ -16,7 +16,7 @@ If you wish to test this web API yourself, you will have to set-up your database
 Run them in folder order.
 
 ## How to set-up your config file
-The database connection settings for the web api are located in *Web.config* in the **ocot-movie-cat** project
+The database connection settings for the web api are located in *Web.config* in the **octo-movie-cat** project
 
 Snippet from *Web.config*:
 ```xml
@@ -30,4 +30,7 @@ Snippet from *Web.config*:
 Just change that *DatabaseServer* value to whatever your server name is for your instance of SQL Server.
 
 ## Why did you make this?
-Just for fun and practicing end-to-end web API creation using ASP.NET. 
+Just for fun and practicing end-to-end web API creation using ASP.NET.
+
+## Nuget Packages
+None so far. Considering AutoMapper for mapping of the DTO to contract stuff.
